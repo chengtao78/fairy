@@ -422,7 +422,7 @@ read_data_from_floppy:
     pop ax  
     jmp read_data_from_floppy
 
-.load_error  
+.load_error:
     mov si, err_msg
     call print_msg
     jmp $                        ; 打印出错信息后死机
@@ -474,7 +474,7 @@ create_page_table:
     mov dword [ebx], eax        ;    
     add eax, PAGE_SIZE          ;        
     add ebx, 4                  ;
-    inc cx;    
+    inc cx                      ;    
     cmp cx, [PARAM_ADDR + 2]    ;  
     jne create_page_table       ;  
 
@@ -513,7 +513,6 @@ l1:
 
 high_init:
     ; 将要进入c编写的代码,此处还没有开中断,等到全部加载后便可开中断
-    jmp $
     jmp KERNEL_CS: 0xC0100000    ; jmp to kernel 
     
 ;---------------------------------------------------------------------------
@@ -538,12 +537,12 @@ idtr:
 ;---------------------------------
 ;gdt段描述表 (每段占8bytes)
 ;---------------------------------
-gdt_table
-gdt_null                ; 
+gdt_table:
+gdt_null:               ; 
     dd 0                ; 
     dd 0                ; 
     
-k_code_gdt              ; 内核代码段描述符
+k_code_gdt:             ; 内核代码段描述符
     dw 0x0ffff          ; 段限为4GB
     dw 0x0000           ; 段基址(0-15) L
     db 0x00             ; 段基址(16-23) M
@@ -551,7 +550,7 @@ k_code_gdt              ; 内核代码段描述符
     db 0x0cf            ; 粒度为4k, 32位指令,四个段都在内存,段限为4GB
     db 0x00             ; 段基址(24-31)H
     
-k_data_gdt              ; 内核数据段描述符
+k_data_gdt:             ; 内核数据段描述符
     dw 0x0ffff          ; 段限为4GB
     dw 0x0000           ; 段基址(0-15) L
     db 0x00             ; 段基址(16-23) M
@@ -559,7 +558,7 @@ k_data_gdt              ; 内核数据段描述符
     db 0x0cf            ; 粒度为4k, 段限为4GB
     db 0x00             ; 段基址(24-31)H
     
-u_code_gdt              ; 用户内核代码段描述符
+u_code_gdt:             ; 用户内核代码段描述符
     dw 0x0ffff          ; 段限为4GB                                      
     dw 0x0000           ; 段基址(0-15) L                                 
     db 0x00             ; 段基址(16-23) M                                
@@ -567,7 +566,7 @@ u_code_gdt              ; 用户内核代码段描述符
     db 0x0cf            ; 粒度为4k, 32位指令,四个段都在内存,段限为4GB    
     db 0x00             ; 段基址(24-31)H                                 
     
-u_data_gdt              ; 用户数据段描述符
+u_data_gdt:             ; 用户数据段描述符
     dw 0x0ffff          ; 段限为4GB                                         
     dw 0x0000           ; 段基址(0-15) L                                    
     db 0x00             ; 段基址(16-23) M                                   
@@ -575,10 +574,10 @@ u_data_gdt              ; 用户数据段描述符
     db 0x0cf            ; 粒度为4k, 段限为4GB                               
     db 0x00             ; 段基址(24-31)H                                    
     
-gdt_no_use              ;
+gdt_no_use:             ;
     dd 0                ;
     dd 0                ;
-gdt_end                 ;
+gdt_end:                ;
 
 null_sel    equ gdt_null - gdt_table        ;
 KERNEL_CS   equ k_code_gdt - gdt_table      ; KERNEL_CS =   8h
