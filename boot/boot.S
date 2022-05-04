@@ -21,9 +21,9 @@ SETUP_LEN               EQU 0X02        ; setup占用的扇区数
     mov [boot_drv], dl                  ; 保存boot drive
     mov sp, 0xff00                      ; 初始化堆栈指针
 
+    call cls
     mov si, load_msg
     call print_msg
-    jmp $                               ; 打印出错信息后死机    
        
 ;加载硬件参数设置程序
 load_setup:    
@@ -65,6 +65,14 @@ disp_next_ch:
     jmp  disp_next_ch
 quit:   
     pop  ax  
+    ret
+
+cls: 
+    mov ax, 0x0700    
+    mov bh, 0x07                        ; 
+    mov cx, 0x0000
+    mov dx, 0x174f                      ; 利用BIOS int 10h中断ah=07h功能进行清屏
+    int 0x10
     ret
 
 load_msg    db  10, 13, "Hello Fairy! This is baremetal Operate Syetem", 0
