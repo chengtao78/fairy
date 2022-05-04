@@ -1,0 +1,10 @@
+
+CC = gcc
+LD = ld
+AS = nasm
+
+INCLUDE = $(PWD)/include
+
+ASFLAG  = -f elf
+LDFLAGS = -melf_i386 -Ttext 0xC0100000 -e start_kernel
+CCFLG   = -O2 -c -nostdinc -fno-builtin -I$(INCLUDE) -I.
