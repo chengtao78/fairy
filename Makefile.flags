@@ -1,4 +1,4 @@
 
-INCLUDE := $(PWD)/include/
-INCLUDE += $(PWD)/include/fairy/
+INCLUDE := -I$(PWD)/include/
+INCLUDE += -I$(PWD)/include/fairy/
 

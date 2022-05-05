@@ -19,7 +19,7 @@ setup.bin:
 	nasm -o setup.bin -f bin boot/setup.S
 
 kernel.bin:
-	@for d in $(SUBDIRS); do make -C $$d; done
+	@for d in $(SUBDIRS); do make -C $$d INC='$(INCLUDE)'; done
 	ld -melf_i386 $(KERNEL_LIBS) -Ttext 0xC0100000 -e start_kernel -o _kernel.bin
 	objcopy -O binary -R .note -R .comment -S _kernel.bin kernel.bin
 
